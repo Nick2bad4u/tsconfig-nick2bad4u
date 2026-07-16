@@ -1,0 +1,10 @@
+{
+    "$schema": "https://www.schemastore.org/tsconfig.json",
+    "compilerOptions": {
+        "allowArbitraryExtensions": true,
+        "types": [
+            "vite/client"
+        ]
+    },
+    "extends": "./tsconfig.browser.json"
+}

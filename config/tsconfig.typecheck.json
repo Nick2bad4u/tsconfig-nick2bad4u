@@ -1,0 +1,23 @@
+{
+    "$schema": "https://www.schemastore.org/tsconfig.json",
+    "compilerOptions": {
+        "tsBuildInfoFile": "../.cache/tsbuildinfo/tsconfig.typecheck.tsbuildinfo",
+        "types": [
+            "node"
+        ]
+    },
+    "exclude": [
+        "../dist/**",
+        "../node_modules/**",
+        "../test/fixtures/**"
+    ],
+    "extends": [
+        "../tsconfig.node.json",
+        "../tsconfig.vitest-typecheck.json"
+    ],
+    "include": [
+        "../src/**/*.ts",
+        "../test/**/*.ts",
+        "../vite.config.ts"
+    ]
+}

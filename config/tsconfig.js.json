@@ -1,0 +1,19 @@
+{
+    "$schema": "https://www.schemastore.org/tsconfig.json",
+    "compilerOptions": {
+        "tsBuildInfoFile": "../.cache/tsbuildinfo/tsconfig.js.tsbuildinfo",
+        "types": [
+            "node"
+        ]
+    },
+    "extends": [
+        "../tsconfig.node.json",
+        "../tsconfig.js.json"
+    ],
+    "include": [
+        "../*.cjs",
+        "../*.mjs",
+        "../bin/**/*.mjs",
+        "../scripts/**/*.mjs"
+    ]
+}
