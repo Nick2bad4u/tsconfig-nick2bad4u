@@ -13,9 +13,7 @@
         "lib": [
             "ES2024"
         ],
-        "module": "ESNext",
         "moduleDetection": "auto",
-        "moduleResolution": "Bundler",
         "newLine": "lf",
         "noEmit": true,
         "noErrorTruncation": true,

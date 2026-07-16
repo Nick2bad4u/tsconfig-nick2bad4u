@@ -5,6 +5,5 @@
         "checkJs": true,
         "isolatedDeclarations": false,
         "noEmit": true
-    },
-    "extends": "./tsconfig.json"
+    }
 }

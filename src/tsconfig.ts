@@ -3,7 +3,7 @@ import type { UnknownRecord } from "type-fest";
 import { readFileSync } from "node:fs";
 import { readFile } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
-import { keyIn } from "ts-extras";
+import { arrayJoin, keyIn, objectHasOwn } from "ts-extras";
 
 /** Parsed JSON object from one package-owned TypeScript preset. */
 export type Tsconfig = Readonly<UnknownRecord>;
@@ -14,8 +14,10 @@ export type TsconfigPreset =
     | "browser"
     | "build"
     | "bundler"
+    | "bundler-library"
     | "eslint"
     | "javascript"
+    | "library"
     | "node"
     | "node-library"
     | "vite"
@@ -23,27 +25,31 @@ export type TsconfigPreset =
     | "vitest-typecheck";
 
 /** All public presets. */
-export const tsconfigPresets: readonly TsconfigPreset[] = [
+export const tsconfigPresets: readonly TsconfigPreset[] = Object.freeze([
     "base",
     "browser",
     "build",
     "bundler",
+    "bundler-library",
     "eslint",
     "javascript",
+    "library",
     "node",
     "node-library",
     "vite",
     "vitest-globals",
     "vitest-typecheck",
-];
+]);
 
 const presetFileNames: Readonly<Record<TsconfigPreset, string>> = {
     base: "tsconfig.json",
     browser: "tsconfig.browser.json",
     build: "tsconfig.build.json",
     bundler: "tsconfig.bundler.json",
+    "bundler-library": "tsconfig.bundler-library.json",
     eslint: "tsconfig.eslint.json",
     javascript: "tsconfig.js.json",
+    library: "tsconfig.library.json",
     node: "tsconfig.node.json",
     "node-library": "tsconfig.node-library.json",
     vite: "tsconfig.vite.json",
@@ -54,8 +60,18 @@ const presetFileNames: Readonly<Record<TsconfigPreset, string>> = {
 const isRecord = (value: unknown): value is UnknownRecord =>
     typeof value === "object" && value !== null && !Array.isArray(value);
 
-/** Return the absolute path to one package-owned preset. */
+/**
+ * Return the absolute path to one package-owned preset.
+ *
+ * @throws When `preset` is not a public preset name.
+ */
 export function getTsconfigPath(preset: TsconfigPreset = "base"): string {
+    if (!objectHasOwn(presetFileNames, preset)) {
+        throw new RangeError(
+            `Unknown TypeScript preset: ${preset}. Expected one of: ${arrayJoin(tsconfigPresets, ", ")}.`
+        );
+    }
+
     return fileURLToPath(
         new URL(`../${presetFileNames[preset]}`, import.meta.url)
     );
